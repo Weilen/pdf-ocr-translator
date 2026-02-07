@@ -1,0 +1,9 @@
+paddleocr>=2.7.0
+paddlepaddle
+pymupdf
+pillow
+img2pdf
+transformers
+torch
+sentencepiece
+argostranslate
