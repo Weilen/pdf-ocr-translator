@@ -3,17 +3,23 @@ import re
 
 def detect_lang(text: str):
     # Very light heuristic: CJK ranges
-    if re.search(r"[\u4e00-\u9fff]", text):
-        return "zh"
     if re.search(r"[\u3040-\u30ff]", text):
         return "ja"
     if re.search(r"[\uac00-\ud7af]", text):
         return "ko"
+    if re.search(r"[\u4e00-\u9fff]", text):
+        return "zh"
     return "en"
 
 
 class Translator:
-    def __init__(self, backend: str = "marian", src: str = "auto", tgt: str = "en", allow_pivot: bool = True):
+    def __init__(
+        self,
+        backend: str = "marian",
+        src: str = "auto",
+        tgt: str = "en",
+        allow_pivot: bool = True,
+    ):
         self.backend = backend
         self.src = src
         self.tgt = tgt
@@ -31,7 +37,9 @@ class Translator:
             try:
                 from transformers import MarianMTModel, MarianTokenizer
             except Exception as e:
-                raise RuntimeError("Transformers not available. Install transformers, torch, sentencepiece.") from e
+                raise RuntimeError(
+                    "Transformers not available. Install transformers, torch, sentencepiece."
+                ) from e
             self.MarianMTModel = MarianMTModel
             self.MarianTokenizer = MarianTokenizer
             self._model_cache = {}

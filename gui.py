@@ -1,13 +1,13 @@
+import threading
 import tkinter as tk
 from tkinter import filedialog, messagebox
-from pathlib import Path
-import threading
 
 from main import main as cli_main
 
 
 def run_cli(args):
     import sys
+
     sys.argv = ["pdf-ocr-translator"] + args
     try:
         cli_main()
@@ -22,14 +22,22 @@ def on_run():
         return
 
     args = [
-        "--input", input_var.get(),
-        "--output", output_var.get(),
-        "--ocr-lang", ocr_lang_var.get(),
-        "--src-lang", src_lang_var.get(),
-        "--tgt-lang", tgt_lang_var.get(),
-        "--translation-backend", backend_var.get(),
-        "--dpi", dpi_var.get(),
-        "--jpeg-quality", quality_var.get(),
+        "--input",
+        input_var.get(),
+        "--output",
+        output_var.get(),
+        "--ocr-lang",
+        ocr_lang_var.get(),
+        "--src-lang",
+        src_lang_var.get(),
+        "--tgt-lang",
+        tgt_lang_var.get(),
+        "--translation-backend",
+        backend_var.get(),
+        "--dpi",
+        dpi_var.get(),
+        "--jpeg-quality",
+        quality_var.get(),
     ]
 
     if font_var.get():

@@ -1,28 +1,43 @@
 #!/usr/bin/env python3
 import argparse
-import os
 from pathlib import Path
 
-from pdf_utils import render_pdf_to_images, images_to_pdf
-from ocr import OCRProcessor
-from translate import Translator
 from image_edit import translate_image_inplace
+from ocr import OCRProcessor
+from pdf_utils import images_to_pdf, render_pdf_to_images
+from translate import Translator
 
 
 def parse_args():
     p = argparse.ArgumentParser(description="PDF OCR translator with layout preservation.")
     p.add_argument("--input", "-i", required=True, help="Input PDF path")
     p.add_argument("--output", "-o", required=True, help="Output PDF path")
-    p.add_argument("--ocr-lang", default="auto", choices=["auto", "en", "ch", "japan", "korean"],
-                   help="OCR language (PaddleOCR). 'auto' will try multilingual settings.")
-    p.add_argument("--src-lang", default="auto", choices=["auto", "en", "zh", "ja", "ko"],
-                   help="Source language for translation")
-    p.add_argument("--tgt-lang", default="en", choices=["en", "zh", "ja", "ko"],
-                   help="Target language")
-    p.add_argument("--translation-backend", default="marian", choices=["marian", "argos"],
-                   help="Translation engine backend")
-    p.add_argument("--no-pivot", action="store_true",
-                   help="Disable pivot translation through English if direct model is missing (Marian only)")
+    p.add_argument(
+        "--ocr-lang",
+        default="auto",
+        choices=["auto", "en", "ch", "japan", "korean"],
+        help="OCR language (PaddleOCR). 'auto' will try multilingual settings.",
+    )
+    p.add_argument(
+        "--src-lang",
+        default="auto",
+        choices=["auto", "en", "zh", "ja", "ko"],
+        help="Source language for translation",
+    )
+    p.add_argument(
+        "--tgt-lang", default="en", choices=["en", "zh", "ja", "ko"], help="Target language"
+    )
+    p.add_argument(
+        "--translation-backend",
+        default="marian",
+        choices=["marian", "argos"],
+        help="Translation engine backend",
+    )
+    p.add_argument(
+        "--no-pivot",
+        action="store_true",
+        help=("Disable pivot translation through English if direct model is missing (Marian only)"),
+    )
     p.add_argument("--dpi", type=int, default=150, help="Render DPI for PDF pages")
     p.add_argument("--jpeg-quality", type=int, default=80, help="JPEG quality for output images")
     p.add_argument("--font-path", default="", help="Path to TTF font for rendering translated text")

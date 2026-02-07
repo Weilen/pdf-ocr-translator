@@ -1,9 +1,9 @@
-from pathlib import Path
 import io
+from pathlib import Path
 
 import fitz  # PyMuPDF
-from PIL import Image
 import img2pdf
+from PIL import Image
 
 
 def render_pdf_to_images(pdf_path: Path, dpi: int = 150, max_pages: int = 0):

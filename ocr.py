@@ -15,6 +15,11 @@ class OCRProcessor:
         result = self.ocr.ocr(image, cls=True)
         # Normalize to a list of items for a single image
         if result and isinstance(result, list):
-            if len(result) == 1 and isinstance(result[0], list) and result[0] and isinstance(result[0][0], list):
+            if (
+                len(result) == 1
+                and isinstance(result[0], list)
+                and result[0]
+                and isinstance(result[0][0], list)
+            ):
                 return result[0]
         return result or []
