@@ -1,6 +1,17 @@
 import re
 
 
+def detect_lang(text: str):
+    # Very light heuristic: CJK ranges
+    if re.search(r"[\u4e00-\u9fff]", text):
+        return "zh"
+    if re.search(r"[\u3040-\u30ff]", text):
+        return "ja"
+    if re.search(r"[\uac00-\ud7af]", text):
+        return "ko"
+    return "en"
+
+
 class Translator:
     def __init__(self, backend: str = "marian", src: str = "auto", tgt: str = "en", allow_pivot: bool = True):
         self.backend = backend
@@ -25,21 +36,11 @@ class Translator:
             self.MarianTokenizer = MarianTokenizer
             self._model_cache = {}
 
-    def _guess_src(self, text: str):
-        # Very light heuristic: CJK ranges
-        if re.search(r"[\u4e00-\u9fff]", text):
-            return "zh"
-        if re.search(r"[\u3040-\u30ff]", text):
-            return "ja"
-        if re.search(r"[\uac00-\ud7af]", text):
-            return "ko"
-        return "en"
-
     def translate_text(self, text: str):
         if not text.strip():
             return text
 
-        src = self._guess_src(text) if self.src == "auto" else self.src
+        src = detect_lang(text) if self.src == "auto" else self.src
         tgt = self.tgt
 
         if src == tgt:
